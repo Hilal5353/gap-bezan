@@ -1,0 +1,49 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+    <div class="profile-container">
+    <div class="avatar-section">
+        <img src="{{user_profile.profileimg.url}}" alt="{{ user_object.username }}'s avatar" class="avatar-img">
+ 
+ 
+
+    </div>
+    <div class="info-section">
+        <h1 class="username">{{ user_object.username }}</h1>
+        <p class="karma">⭐ Posts: {{ user_post_length }}</p>
+        <p class="member-since">Joined on {{ user_object.date_joined|date:"F j, Y" }}</p>
+        <p class="bio">Gender:{{user_profile.gender}}<p>
+        <p class="bio"> {{user_profile.bio}} </p>
+        {% if user_object.username != request.user.username %}
+            <form name="follower" action="{% url "follow" %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="follower" value="{{ request.user.username }}">
+                <input type="hidden" name="user" value="{{ user_object.username }}">
+                <button type="submit" style="background-color: #ffc0cb; border: #ffc0cb;">
+                    {{ button_text }}
+                </button>
+            </form>
+        {% endif %}
+        
+        <div class="follow-info">
+        <span>{{ user_followers }} Followers</span> • <span>Following {{ user_following }}</span>
+        </div>
+    </div>
+    </div>
+
+    <hr>
+
+    <h2 class="post-history-title">Recent Posts</h2>
+    <ul class="post-history">
+    {% for post in user_posts %}
+        <li class="post-item">
+        <a href=""></a>
+        <span class="post-date">{{ post.created_at|date:"M d, Y" }}</span>
+        </li>
+    {% empty %}
+        <li>No posts yet.</li>
+    {% endfor %}
+    
+    </ul>
+{% endblock %}
