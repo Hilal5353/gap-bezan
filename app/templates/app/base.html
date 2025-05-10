@@ -31,12 +31,12 @@
             <a href="{% url "home" %}" class="logo">Gap Bezan</a>
         </div>
 
-        <div class="navbar__center">
+        <form method="get" action="{% url 'search' %}">
             <div class="search-box">
-                <img src="{% static 'images/search.svg' %}" alt="Search" />
-                <input type="text" placeholder="Search Posts..." />
+              <img src="{% static 'images/search.svg' %}" alt="Search" />
+              <input type="text" name="searcho" placeholder="Search Posts..." />
             </div>
-        </div>
+        </form>
 
         <div class="navbar__right">
             <a href="{% url "home" %}" class="nav-item">
@@ -66,6 +66,10 @@
             </li>
             <li><a href="{% url 'login' %}">Log Out</a></li>
             <li><a href="{% url 'editprofile' %}">Edit profile</a></li>
+            <li><a href="{% url 'most_liked' %}">Most liked</a></li>
+            <li><a href="{% url 'most_trending' %}">Most trending</a></li>
+            
+
             <li><a href="{% url 'chnagepassword' %}">Chnage password</a></li>
 
         </div>

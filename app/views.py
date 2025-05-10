@@ -134,11 +134,46 @@ def like_post(request):
             like_filter.save()
             post.no_of_like -= 2
             post.save()
-        return redirect('/')
+                                                                                                                                                                                                                                 
+        
+        # Redirect to the previous page
+        return redirect(request.META.get('HTTP_REFERER', '/'))
 
     return redirect('/')
 
 
+
+
+def most_liked(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    posts = Post.objects.all().order_by('-no_of_like')[0:4]
+
+    posts_with_profiles = []
+    for post in posts:
+        post_user_profile = Profile.objects.get(user__username=post.user)
+        posts_with_profiles.append({
+            'post': post,
+            'profile_image': post_user_profile.profileimg
+        })
+
+    return render(request, 'app/most_liked.html', {'user_profile': user_profile, 'posts_with_profiles': posts_with_profiles})
+
+
+def most_trending(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    posts = Post.objects.all().order_by('-no_of_like', '-crated_at')[0:4]
+
+    posts_with_profiles = []
+    for post in posts:
+        post_user_profile = Profile.objects.get(user__username=post.user)
+        posts_with_profiles.append({
+            'post': post,
+            'profile_image': post_user_profile.profileimg
+        })
+
+    return render(request, 'app/most_trending.html', {'user_profile': user_profile, 'posts_with_profiles': posts_with_profiles})
 
 
 
@@ -298,8 +333,34 @@ def edit_profile(request):
             user_profile.location = location
             user_profile.gender = gender
             user_profile.save()
-        return redirect('profile')
+        return redirect('editprofile')
     return render(request, 'app/edit_profile.html', {'user_profile':user_profile, 'user_objects':user_object})
+
+
+
+
+def search(request):
+    query = request.GET.get('q', '')
+    posts = Post.objects.filter(caption__icontains=query).order_by('-no_of_like')
+
+    posts_with_profiles = []
+    for post in posts:
+        post_user_profile = Profile.objects.get(user__username=post.user)
+        posts_with_profiles.append({
+            'post': post,
+            'profile_image': post_user_profile.profileimg
+        })
+
+    return render(request, 'app/search.html', {'post':posts, 'posts_with_profiles': posts_with_profiles})
+
+
+
+
+
+
+
+
+
 
 
 def logout(request):
