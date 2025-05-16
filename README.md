@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 first step 
 -> pip install django
 
@@ -10,3 +11,7 @@ to run the server and make sure you run this all the time
 -> python manage.py runserver
 
   
+=======
+# gap-bezan
+my new project Social-media
+>>>>>>> 9a730258570f837f06411dd7dc7717431af90988
