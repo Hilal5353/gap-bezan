@@ -213,6 +213,8 @@ def changepassword(request):
     return render(request, 'app/change_password.html')
 
 def profile(request, pk):
+    user_object = User.objects.get(username=request.user.username)
+    user_profileo = Profile.objects.get(user=user_object)
     user = User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user)
     user_post = Post.objects.filter(user=user)
@@ -229,7 +231,8 @@ def profile(request, pk):
 
     context = {
         'user_object': user,
-        'user_profile': user_profile,
+        'user_profile': user_profileo,
+        'user_profileo': user_profile,
         'user_posts': user_post,
         'user_post_length': user_post_lens,
         'user_followers': user_followers,

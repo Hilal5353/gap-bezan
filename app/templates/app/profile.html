@@ -4,7 +4,7 @@
 
     <div class="profile-container">
     <div class="avatar-section">
-        <img src="{{user_profile.profileimg.url}}" alt="{{ user_object.username }}'s avatar" class="avatar-img">
+        <img src="{{user_profileo.profileimg.url}}" alt="{{ user_object.username }}'s avatar" class="avatar-img">
  
  
 
@@ -13,8 +13,8 @@
         <h1 class="username">{{ user_object.username }}</h1>
         <p class="karma">⭐ Posts: {{ user_post_length }}</p>
         <p class="member-since">Joined on {{ user_object.date_joined|date:"F j, Y" }}</p>
-        <p class="bio">Gender:{{user_profile.gender}}<p>
-        <p class="bio"> {{user_profile.bio}} </p>
+        <p class="bio">Gender:{{user_profileo.gender}}<p>
+        <p class="bio"> {{user_profileo.bio}} </p>
         {% if user_object.username != request.user.username %}
             <form name="follower" action="{% url "follow" %}" method="POST">
                 {% csrf_token %}
